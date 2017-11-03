@@ -21,3 +21,73 @@ function initialize() {
   hidden = [];
   missed = [];
   numGuesses = 0;
+
+  // Find a random word from the possible words, 
+  // make it lowercase and trim off whitespace
+  word = "";
+  while (!word.length) {
+    word = sample(possibleWords).toLowerCase().trim();
+  }
+
+  // Load the hidden array with dots up to the length of the word
+  for (let i = 0; i < word.length; i++) {
+    hidden.push(".");
+  }
+  
+  // Show the hidden word
+  toDOM("hangmanoutput", hidden.join(""));
+} // end initialize
+// Handles user's guess
+function guess(letter) {
+
+  // Clear the victory message
+  toDOM("victorymessage", "");
+  
+  // Validate guess
+  if (letter && isNaN(guess)) {
+    
+    // Create a variable to determine if the player's guess was correct
+    let correct = false;
+
+    // Check every letter in the word against the guess
+    for (let i = 0; i < word.length; i++) {
+    
+      // If we find a match for this character in the word,
+      // put it in the hidden word at that index
+      if (word.charAt(i) === letter) {
+        correct = true;
+        hidden[i] = letter;
+      }
+    }
+
+    // If the player's guess was incorrect, add it to the missed letters array
+    if (!correct) {
+        missed.push(letter);
+    }
+    
+    // Increment the total number of guesses
+    numGuesses++;
+    
+    // Write the hidden word to the output, joining the array into a string
+    toDOM("hangmanoutput", hidden.join(""));
+
+    // Do the same for the missed guesses array
+    toDOM("missedoutput", missed.join(" "));
+    
+    // Check if the word was successfully guessed
+    if (hidden.join("") === word) {
+      toDOM("victorymessage", "You guessed " + 
+        word + " in " + numGuesses + " guesses!");
+        
+      // Start a new round
+      initialize();
+    }
+    else if (missed.length >= MAX_GUESSES) {
+      toDOM("victorymessage", "You're out of guesses!  " + 
+        "The word was " + word + ".");
+        
+      // Start a new round
+      initialize();
+    }
+  }
+} // end guess
