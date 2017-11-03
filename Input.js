@@ -1,13 +1,13 @@
 // An array of possible words for hangman, to be loaded from a text file
-let possibleWords;
+let Dictionary;
 
 // Variables to hold the target word and the hidden word
 let word;
-let hidden;
+let hide;
 
 // Counts the number of guesses the user has made so 
 // far and an array to store missed guesses
-let numGuesses;
+let seek;
 let missed;
 
 // Limit the maximum number of guesses before the player loses
@@ -18,24 +18,24 @@ const MAX_GUESSES = 8;
 function initialize() {
   
   // Initialize global variables
-  hidden = [];
+  hide = [];
   missed = [];
-  numGuesses = 0;
+  seek = 0;
 
   // Find a random word from the possible words, 
   // make it lowercase and trim off whitespace
   word = "";
   while (!word.length) {
-    word = sample(possibleWords).toLowerCase().trim();
+    word = sample(dictionary).toLowerCase().trim();
   }
 
   // Load the hidden array with dots up to the length of the word
   for (let i = 0; i < word.length; i++) {
-    hidden.push(".");
+    hide.push(".");
   }
   
   // Show the hidden word
-  toDOM("hangmanoutput", hidden.join(""));
+  toDOM("hangmanoutput", hide.join(""));
 } // end initialize
 // Handles user's guess
 function guess(letter) {
@@ -56,7 +56,7 @@ function guess(letter) {
       // put it in the hidden word at that index
       if (word.charAt(i) === letter) {
         correct = true;
-        hidden[i] = letter;
+        hide[i] = letter;
       }
     }
 
@@ -66,18 +66,18 @@ function guess(letter) {
     }
     
     // Increment the total number of guesses
-    numGuesses++;
+    seek++;
     
     // Write the hidden word to the output, joining the array into a string
-    toDOM("hangmanoutput", hidden.join(""));
+    toDOM("hangmanoutput", hide.join(""));
 
     // Do the same for the missed guesses array
     toDOM("missedoutput", missed.join(" "));
     
     // Check if the word was successfully guessed
-    if (hidden.join("") === word) {
+    if (hide.join("") === word) {
       toDOM("victorymessage", "You guessed " + 
-        word + " in " + numGuesses + " guesses!");
+        word + " in " + seek + " guesses!");
         
       // Start a new round
       initialize();
