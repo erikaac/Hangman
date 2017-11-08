@@ -11,7 +11,7 @@ let seek;
 let missed;
 
 // Limit the maximum number of guesses before the player loses
-const MAX_GUESSES = 8;
+const MAX_GUESSES = 10;
 
 
 // Sets up a new game of hangman
