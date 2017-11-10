@@ -1,0 +1,22 @@
+<html>
+<body>
+
+<button onclick="myFunction()">Guess A Letter</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+    var txt;
+    var letter = prompt("Please enter your name:", "Harry Potter");
+    if (letter == null || letter == "") {
+        txt = "User cancelled the prompt.";
+    } else {
+        txt = "You guessed the letter " + letter + ".";
+    }
+    document.getElementById("demo").innerHTML = txt;
+}
+</script>
+
+</body>
+</html>
